@@ -211,3 +211,38 @@ function nizhi(root) {
 
 # 冒泡排序
 
+排序的本质不是比较大小， 本质是比较和交换
+
+```js
+
+var arr = [4,1,6,9,3,2,8,7];
+
+// 比较之后需要得出是否需要交换
+function compre(a, b) {
+	if(a < b) return false;
+	else return true;
+
+}
+
+//将数组中ab位置里的值进行交换
+function exchange(arr, a, b) {
+	let temp = arr[a];
+	arr[a] = arr[b];
+	arr[b] = temp;
+}
+
+//这个sort可以是冒泡排序也可以是选择排序也可以是其它排序。
+function sort(arr) {
+
+	for(let i = 0; i < arr.length; i ++) {
+		for(let j = 0, len = arr.length - 1; j < len - i; j ++) { // 每次排序是把最大的数放到数组的最后面  每次循环后最后的两个数不用比较
+				if(compre(arr[j], arr[j + 1])) {
+					exchange(arr, j, j + 1)
+				}
+			}
+	}
+	
+}
+
+```
+

@@ -32,7 +32,7 @@ function nizhi(root) {
 	}
 }
 
-const newRoot = nizhi(node1)
+// const newRoot = nizhi(node1)
 
 // function bianLink(root) {
 // 	if(root === null) return
@@ -42,3 +42,33 @@ const newRoot = nizhi(node1)
 // }
 
 // bianLink(newRoot)
+
+
+let arr = [4,1,6,9,3,2,8,7];
+
+
+function compare(a, b) {
+	if(b < a) return true;
+	else return false;
+}
+
+function exchange(arr, a, b) {
+	let temp = arr[a];
+	arr[a] = arr[b];
+	arr[b] = temp
+}
+
+function sort(arr) {
+	for(let j = 0; j < arr.length; j ++) {
+		for(let i = 0, len = arr.length - 1; i < len - j; i++) {
+			if(compare(arr[i], arr[i + 1])) {
+				exchange(arr, i, i + 1)
+			}
+		}
+	}
+	
+	// return arr
+}
+
+console.log(sort(arr))
+console.log(arr);
