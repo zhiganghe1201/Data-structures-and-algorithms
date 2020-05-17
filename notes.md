@@ -244,5 +244,77 @@ function sort(arr) {
 	
 }
 
+sort(arr);
+
+console.log(arr)
+
 ```
 
+# 选择排序
+
+### 任何一个排序算法没有优劣之分， 只有是否适合的场景， 
+冒泡排序适合越有序数据集， 选择排序适合比较一般乱的数据集， 快速排序适合越混乱的数据集
+
+
+```js
+
+function compare(a, b) {
+	if(a < b) return false;
+	else return true;
+}
+
+function exchange(arr, a, b) {
+	let temp = arr[a];
+	arr[a] = arr[b];
+	arr[b] = temp;
+}
+
+// 选择排序内层循环， 每一圈选出最大的， 然后放在后面
+function sort(arr) {
+	for(let i = 0; i < arr.length; i ++) {
+		let maxIndex = 0;
+		for(let j = 0; j < arr.length - i; j ++) {
+			if(compare(arr[j], arr[maxIndex])) {
+				maxIndex = j
+			}
+		}
+		exchange(arr, maxIndex, arr.length - 1 -i) // 
+	}
+}
+
+
+```
+
+
+# 简单快速排序
+
+拿数组的第一位当排头， 比我小的放右边， 比我大的放左边；
+
+```js
+let arr = [4,1,6,9,3,2,8,7];
+
+// 简易般 这种会创建很多数组
+function quickSort(arr) {
+	if(arr === null || arr.length === 0) return []
+	let leader = arr[0];
+	let left = [];
+	let right = [];
+	for(let i = 1; i < arr.length; i ++) {
+		if(arr[i] < leader) {
+			left.push(arr[i])
+		}else {
+			right.push(arr[i])
+		}
+	}
+	left = quickSort(left);
+	right = quickSort(right);
+	left.push(leader);
+	return left.concat(right)
+
+}
+
+const newArr = quickSort(arr);
+
+console.log(newArr);
+
+```

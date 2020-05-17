@@ -47,28 +47,25 @@ function nizhi(root) {
 let arr = [4,1,6,9,3,2,8,7];
 
 
-function compare(a, b) {
-	if(b < a) return true;
-	else return false;
-}
-
-function exchange(arr, a, b) {
-	let temp = arr[a];
-	arr[a] = arr[b];
-	arr[b] = temp
-}
-
-function sort(arr) {
-	for(let j = 0; j < arr.length; j ++) {
-		for(let i = 0, len = arr.length - 1; i < len - j; i++) {
-			if(compare(arr[i], arr[i + 1])) {
-				exchange(arr, i, i + 1)
-			}
+function quickSort(arr) {
+	if(arr === null || arr.length === 0) return []
+	let leader = arr[0];
+	let left = [];
+	let right = [];
+	for(let i = 1; i < arr.length; i ++) {
+		if(arr[i] < leader) {
+			left.push(arr[i])
+		}else {
+			right.push(arr[i])
 		}
 	}
-	
-	// return arr
+	left = quickSort(left);
+	right = quickSort(right);
+	left.push(leader);
+	return left.concat(right)
+
 }
 
-console.log(sort(arr))
-console.log(arr);
+const newArr = quickSort(arr);
+
+console.log(newArr);
