@@ -44,7 +44,7 @@ function nizhi(root) {
 // bianLink(newRoot)
 
 
-let arr = [4,1,6,9,3,2,8,7];
+let arr = [1,9,2,2,23,3,4];
 
 
 function quickSort(arr) {
@@ -66,6 +66,37 @@ function quickSort(arr) {
 
 }
 
-const newArr = quickSort(arr);
+// const newArr = quickSort(arr);
 
-console.log(newArr);
+// console.log(newArr);
+
+
+// function checkType(type) {
+// 	return v => Object.prototype.toString.call(v) === `[object ${type}]`
+// }
+
+const checktype = type => v => Object.prototype.toString.call(v) === `[object ${type}]`;
+
+const isNumber = checktype('Number');
+
+// console.log(isNumber(2323));
+
+
+function bubbleSort(arr) {
+	for(let i = 0, len = arr.length; i < len; i ++) {
+		let flag = true; // 维护一个flag 如果内层循环一次没有出现 数的交换说明此时已经排序好了， 就没有必要继续循环排序了
+		for(let j = 0, len = arr.length - 1 -i; j < len; j ++) { // 这里的减 i 是说明每一次外层循环好， 数组的最后一位已经是最大值了；
+			if(arr[j] > arr[j + 1]) {
+				flag = false;
+				let temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+
+		if(flag) break;
+	}
+	return arr;
+}
+
+console.log(bubbleSort(arr))
