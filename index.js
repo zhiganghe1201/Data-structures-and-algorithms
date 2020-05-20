@@ -77,7 +77,7 @@ function quickSort(arr) {
 
 const checktype = type => v => Object.prototype.toString.call(v) === `[object ${type}]`;
 
-const isNumber = checktype('Number');
+// const isNumber = checktype('Number');
 
 // console.log(isNumber(2323));
 
@@ -99,4 +99,97 @@ function bubbleSort(arr) {
 	return arr;
 }
 
-console.log(bubbleSort(arr))
+// console.log(bubbleSort(arr))
+
+function selectSort(arr) {
+	for(let i = 0, len = arr.length; i < len; i++) {
+
+	}
+}
+
+
+function swap(arr, a, b) {
+	let temp = arr[a];
+	arr[a] = arr[b];
+	arr[b] = temp
+}
+function quickSort(arr, begin, end) {
+	if(begin >= end) return arr;
+	let left = begin;
+	let right = end;
+	
+	do {
+		do left ++; while(left < right && arr[left] < arr[begin]) // 找到左边比 基准大的索引
+		do right --; while(right > left && arr[right] > arr[begin]) // 找到右边比基准小的
+		if(left < right) swap(arr, left, right)
+	}while(left < right);
+	let swapPoint = left === right ? right - 1 : right;
+	swap(arr, begin, swapPoint);
+	quickSort(arr, begin, swapPoint);
+	quickSort(arr, swapPoint + 1, end)
+
+}
+
+
+function test(arr) {
+	quickSort(arr, 0, arr.length)
+}
+
+test(arr);
+console.log(arr);
+
+
+
+function Stack() {
+	this.arr = arr;
+	this.push = function(value) {
+		this.arr.push(value)
+	};
+	this.pop = function () {
+		return this.arr.pop()
+	}
+}
+
+
+function Queue() {
+	this.arr = [];
+	this.push = function(value) {
+		this.arr.push(value)
+	};
+	this.pop = function() {
+		return this.arr.shift()
+	}
+}
+
+
+function Node(value) {
+	this.value = value;
+	this.left = null;
+	this.right = null;
+}
+
+const a = new Node('a');
+const b = new Node('b');
+const c = new Node('c');
+const d = new Node('d');
+const e = new Node('e');
+const f = new Node('f');
+const g = new Node('g');
+
+a.left = c;
+a.right = b;
+c.left = f;
+c.right = g;
+b.left = d;
+b.right = e;
+
+
+function RDL(root) {
+	if(root === null) return;
+
+	RDL(root.left)
+	RDL(root.right);
+	console.log(root.value);
+}
+
+RDL(a)

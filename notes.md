@@ -336,3 +336,246 @@ const newArr = quickSort(arr);
 console.log(newArr);
 
 ```
+
+# 标准快速排序
+
+数组第1个数为基数， 排序区间以后往右找比基数大的数， 从右往左找比基数小的； 原地交换；
+
+
+
+# 栈和队列
+
+栈： 先进后出
+队列： 先进先出
+
+```js
+// 栈
+function Stack() {
+	this.arr = [];
+	this.push = function(value) {
+		this.arr.push(value)
+	};
+	this.pop = function() {
+		return this.arr.pop()
+	}
+
+}
+
+// 队列
+function Queue() {
+	this.arr = [];
+	this.push = function(value) {
+		this.arr.push(arr);
+	};
+	this.pop = function() {
+		return this.arr.unshift();
+	}
+}
+
+```
+
+# 双向链表
+
+```js
+
+
+function Node(value) {
+    this.value;
+    this.next = null;
+    this.pre = null;
+}
+
+var node1 = new Node(1);
+var node2 = new Node(2);
+var node3 = new Node(3);
+var node4 = new Node(4);
+var node5 = new Node(5);
+
+node1.next = node2;
+node2.pre = node1;
+node2.next = node3;
+node3.pre = node2;
+node3.next = node4;
+node4.pre = node3;
+node4.next = node5;
+node5.pre = node4;
+
+// 双向链表的优点，无论给出哪一个节点，都能对整个链表进行遍历。 没有头也没有尾
+// 双向链表的缺点，多耗费一个引用的空间，而且构建双向链表比较复杂。
+
+
+```
+
+# 二维数据结构
+
+1. 二维数组
+
+2. 二维拓扑结构（图）（拓扑：不看大小， 不看位置， 不看距离， 只看关系）  -->  二叉树
+
+# 树形结构 -- 有向无环图
+（点开文件夹一样）树是图的一种；  A 只能指向 B， B 不能指向 A; 只能单向
+
+1. 树形结构有一个根节点， 树形结构没有回路；
+
+- 根节点: 最上面的节点
+- 叶子节点： 下面没有节点了；
+- 节点： 既不是根节点， 又不是叶子节点的普通节点
+- 树的度： 这个树有最多分支的节点有多少个 分支， 这颗树的度 就是多少
+- 树的深度： 树最多有几层， 树的深度就是多少；
+- 子节点： 么个节点下面所有的第一层的节点；（多个）
+- 父节点： 么个节点的上一个节点（二叉树只有一个父节点）
+
+# 二叉树
+
+> 树的度最多为2的树形结构（即最多2个分支）
+
+### 满二叉树
+
+1. 所有叶子节点都在最底层；
+2. 除叶子节点外，每个节点，都有两个子节点
+
+### 完全二叉树
+
+1. 国内定义：
+	- 叶子节点在最后一层或倒数第二层；
+	- 叶子节点都向左靠拢
+
+2. 国际定义:
+	- 叶子节点在最后一层或倒数第二层；
+	- 如果有叶子节点， **就必须有两个叶子节点**
+
+### 二叉树中子树的概念
+
+> 在二叉树中， 每个节点都认为自己是根节点；
+
+- 子树： 二叉树中， 每一个节点或叶子节点都是一颗子树的根节点；
+
+- 左子树、右子树； 相对于根节点而言来划分左子树、右子树；
+
+# 二叉树的遍历
+
+> 传递二叉树要传根节点
+
+![二叉树](./assets/images/tree.png)
+
+- 前序遍历：（先根次序遍历） 先打印当前的， 再打印左边的子树， 再打印右边的子树。   **根节点在最前面 DLR**  **ACFGBDE**
+- 中序遍历：（中根次序遍历） 先打印左边的子树， 再打印当前的， 再打印右边的子树。（节点在地上的投影）  **根节点在中间 LDR**  **FCGADBE**
+- 后序遍历：（后根次序遍历） 先打印左边边的子树， 再打印右边的子树。 再打印当前的。   **根节点在最后面 LRD**  **FGCDEBA**
+
+
+### 前序遍历
+
+```js
+function Node(value) {
+	this.value = value;
+	this.left = null;
+	this.right = null;
+}
+
+const a = new Node('a')
+const b = new Node('b')
+const c = new Node('c')
+const d = new Node('d')
+const e = new Node('e')
+const f = new Node('f')
+const g = new Node('g')
+
+a.left = c
+a.right = b;
+c.left = f;
+c.right = g;
+b.left = d;
+b.right = e;
+
+// 前序遍历 先当前再左再右
+function DLF(root) {
+	if(root === null) return;
+	console.log(root.value);
+	DLF(root.left);
+	DLF(root.right)
+	
+}
+
+DLF(a)
+
+```
+
+### 中序遍历
+
+```js
+function Node(value) {
+	this.value = value;
+	this.left = null;
+	this.right = null;
+}
+
+const a = new Node('a')
+const b = new Node('b')
+const c = new Node('c')
+const d = new Node('d')
+const e = new Node('e')
+const f = new Node('f')
+const g = new Node('g')
+
+a.left = c
+a.right = b;
+c.left = f;
+c.right = g;
+b.left = d;
+b.right = e;
+// 中序遍历 先左再当前再右
+function LDF(root) {
+	if(root === null) return;
+	LDF(root.left);
+	console.log(root.value);
+	LDF(root.right)
+	
+}
+
+LDF(a)
+```
+
+### 后序遍历
+
+```js
+
+function Node(value) {
+	this.value = value;
+	this.left = null;
+	this.right = null;
+}
+
+const a = new Node('a');
+const b = new Node('b');
+const c = new Node('c');
+const d = new Node('d');
+const e = new Node('e');
+const f = new Node('f');
+const g = new Node('g');
+
+a.left = c;
+a.right = b;
+c.left = f;
+c.right = g;
+b.left = d;
+b.right = e;
+
+// 后序遍历  先左再右再当前
+function RDL(root) {
+	if(root === null) return;
+	RDL(root.left)
+	RDL(root.right);
+	console.log(root.value);
+}
+
+RDL(a)
+
+```
+
+#### 常考点
+> 还原二叉树必须要有中序遍历
+
+1. 给出二叉树，写出前序、中序、后序遍历
+2. 写出前序、中序、后序遍历的代码
+3. 给出前序、中序还原二叉树，写出后序遍历的；
+4. 给出后序、中序还原二叉树，写出前序遍历的；
