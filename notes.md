@@ -213,6 +213,18 @@ function nizhi(root) {
 
 排序的本质不是比较大小， 本质是比较和交换
 
+术语解释：
+
+n: 数据的规模
+
+稳定： 两个相等的值在排序前后相对位置是否改变，如果不会改变则成为稳定，反之为不稳定
+
+排序方式：**内排序**In-place是指所有操作都在内存中完成；**外排序**Out-place把数据放在磁盘中，排序通过磁盘和内存的数据传输才能进行；
+
+时间复杂度：算法执行所消耗的时间；
+
+空间复杂度：算法执行所需的内存的大小；
+
 ```js
 
 var arr = [4,1,6,9,3,2,8,7];
@@ -339,7 +351,42 @@ console.log(newArr);
 
 # 标准快速排序
 
-数组第1个数为基数， 排序区间以后往右找比基数大的数， 从右往左找比基数小的； 原地交换；
+数组第1个数为基数， 排序区间以后往右找比基数大的数， 从右往左找比基数小的； 原地交换； 当left > right 时， 把 begin 的数和 right 的数交换 这时 begin 左边的数都比它小， 右边的数都比它大；
+
+```js
+function swap(arr, a, b) {
+	let temp = arr[a];
+	arr[a] = arr[b];
+	arr[b] = temp;
+}
+
+// begin、end 作为数组的排序的开始和结束  前闭后开 [ )
+function quickSort(arr, begin, end) {
+	if(begin >= end - 1) return;
+	let left = begin;
+	let right = end;
+
+	do {
+		do left ++; while(left < right && arr[left] < arr[begin]);
+		do right --; while(left < right && arr[right] > arr[begin]);
+
+		if(left < right) {
+			swap(arr, left right);
+		}
+	} while(left < right);
+	let swapPoint = left === right ? right - 1 : right;
+	swap(arr, begin, swapPoint);
+	quickSort(arr, begin, swapPoint);
+	quickSort(arr, swapPoint + 1, end);
+}
+
+
+function q(arr) {
+	quick(arr, 0, arr.length);
+}
+
+
+```
 
 
 
@@ -458,9 +505,11 @@ node5.pre = node4;
 
 ![二叉树](./assets/images/tree.png)
 
-- 前序遍历：（先根次序遍历） 先打印当前的， 再打印左边的子树， 再打印右边的子树。   **根节点在最前面 DLR**  **ACFGBDE**
-- 中序遍历：（中根次序遍历） 先打印左边的子树， 再打印当前的， 再打印右边的子树。（节点在地上的投影）  **根节点在中间 LDR**  **FCGADBE**
-- 后序遍历：（后根次序遍历） 先打印左边边的子树， 再打印右边的子树。 再打印当前的。   **根节点在最后面 LRD**  **FGCDEBA**
+- 前序遍历：（先根次序遍历） 先打印当前的， 再打印左边的子树， 再打印右边的子树。   **根节点在最前面 DLR** | **ACFGBDE**
+- 中序遍历：（中根次序遍历） 先打印左边的子树， 再打印当前的， 再打印右边的子树。（节点在地上的投影）  **根节点在中间 LDR** | **FCGADBE**
+- 后序遍历：（后根次序遍历） 先打印左边边的子树， 再打印右边的子树。 再打印当前的。   **根节点在最后面 LRD** | **FGCDEBA**
+
+- 层次遍历： 从上到下、从左到右； **ACBFGDE**
 
 
 ### 前序遍历
@@ -488,15 +537,14 @@ b.left = d;
 b.right = e;
 
 // 前序遍历 先当前再左再右
-function DLF(root) {
+function DLR(root) {
 	if(root === null) return;
 	console.log(root.value);
-	DLF(root.left);
-	DLF(root.right)
+	DLR(root.right)
 	
 }
 
-DLF(a)
+DLR(a)
 
 ```
 
@@ -577,5 +625,63 @@ RDL(a)
 
 1. 给出二叉树，写出前序、中序、后序遍历
 2. 写出前序、中序、后序遍历的代码
-3. 给出前序、中序还原二叉树，写出后序遍历的；
-4. 给出后序、中序还原二叉树，写出前序遍历的；
+3. 给出前序、中序还原二叉树，写出后序遍历；
+4. 给出后序、中序还原二叉树，写出前序遍历；
+
+### 给出前序、中序 还原二叉树
+
+```js
+const qian = ['a', 'c', 'f', 'g', 'b', 'd', 'e'];
+const zhon = ['f', 'c', 'g', 'a', 'd', 'b', 'e'];
+
+function Node(value) {
+	this.value = value;
+	this.left = null;
+	this.right = null;
+}
+
+function f1(qian, zhon) {
+	if(qian === null || zhon === null || qian.length === 0 || qian.length === 0 || qian.length !== zhon.length) return null;
+	let root = new Node(qian[0]);
+	let rootIndex = zhon.indexOf(root.value); // 找到根节点在中序遍历中的位置
+	let qianLeft = qian.slice(1, rootIndex + 1); // 找到前序遍历的左子树
+	let qianRight = qian.slice(rootIndex + 1, qian.length); // 找到前序遍历的右子树
+	let zhonLeft = zhon.slice(0, rootIndex); // 中序遍历的左子树
+	let zhonRight = zhon.slice(rootIndex + 1, zhon.length); // 中序遍历的右子树
+
+	root.left = f1(qianLeft, zhonLeft); //根据左子树的 前序和中序还原左子树并赋值给root.left
+	root.right = f1(qianRight, zhonRight); //根据左子树的 前序和中序还原左子树并赋值给root.left
+	return root;
+}
+
+```
+
+### 给出后序、中序 还原二叉树
+
+```js
+let hou = ['f', 'g', 'c', 'd', 'e', 'b', 'a'];
+let zhon = ['f', 'c', 'g', 'a', 'd', 'b', 'e'];
+
+function Node(value) {
+	this.value = value;
+	this.left = null;
+	this.right = null;
+}
+
+function f1(hou, zhon) {
+	if(hou === null || zhon === null || hou.length === 0 || zhon.length === 0 || hou.length !== zhon.length ) return null;
+
+let root = new Node(hou[hou.length - 1]);
+let rootIndex = zhon.indexOf(root.value);
+let houLeft = hou.slice(0, rootIndex);
+let houRight = hou.slice(rootIndex, hou.length - 1);
+let zhonLeft = zhon.slice(0, rootIndex);
+let zhonRight = zhon.slice(rootIndex + 1, zhon.length);
+
+root.left = f1(houLeft, zhonLeft);
+root.right = f1(houRight, zhonRight);
+
+return root;
+}
+
+```
