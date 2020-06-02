@@ -685,3 +685,91 @@ return root;
 }
 
 ```
+
+# 二叉树的深度和广度搜索
+
+- 深度是一直往下找： 更适合探索未知
+- 广度是一层一层的找： 更适合探索局域
+
+### 代码实现深搜
+
+```js
+function Node(value) {
+	this.value = value;
+	this.left = null;
+	this.right = null;
+}
+
+const a = new Node('a');
+const b = new Node('b');
+const c = new Node('c');
+const d = new Node('d');
+const e = new Node('e');
+const f = new Node('f');
+const g = new Node('g');
+
+a.left = c;
+a.right = b;
+c.left = f;
+c.right = g;
+b.left = d;
+b.right = e;
+
+// 深度搜索 target 在不在以 root 为根节点的二叉树中
+
+// 对于二叉树来说， 深度优先搜索， 和前序遍历的顺序是一样的；
+function deepSearch(root, target) {
+	if(root === null) return false;
+	if(root.value === target) return true;
+	let left = deepSearch(root.left, target);
+	let right = deepSearch(root.right, target);
+	return left || right
+}
+
+deepSearch(a, 'f') // true
+```
+
+### 代码实现二叉树广搜
+
+```js
+
+function Node(value) {
+	this.value = value;
+	this.left = null;
+	this.right = null;
+}
+
+const a = new Node('a');
+const b = new Node('b');
+const c = new Node('c');
+const d = new Node('d');
+const e = new Node('e');
+const f = new Node('f');
+const g = new Node('g');
+
+a.left = c;
+a.right = b;
+c.left = f;
+c.right = g;
+b.left = d;
+b.right = e;
+
+// 广度优先搜索 遍历每一层的节点数组；
+function breadthSearch(rootList, target) {
+	if(rootList === null || rootList.length === 0) return false;
+	let childList = [];
+	for(let i = 0; i < rootList.length; i++) {
+		if(rootList[i] !== null && rootList[i].value === target) {
+			return true;
+		} else {
+			childList.push(rootList[i].left);
+			childList.push(rootList[i].right);
+		}
+	}
+
+	return breadthSearch(childList, target);
+}
+
+````
+
+# 二叉树的比较
