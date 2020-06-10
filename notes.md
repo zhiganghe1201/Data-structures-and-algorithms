@@ -770,6 +770,20 @@ function breadthSearch(rootList, target) {
 	return breadthSearch(childList, target);
 }
 
-````
+```
 
-# 二叉树的比较
+### 二叉树的比较
+
+```js
+// 左右子树交换后 不算同一个二叉树；
+function compareTree(root1, root2) {
+	if(root1 == root2) return true; // 是同一颗二叉树
+	if(root1 == null && root2 != null || root2 == null && root1 != null) return false; // 一棵树有值 一棵树没值
+	if(root1.value != root2.value) return false; // 相同位置值不同
+	let leftBool = compareTree(root1.left, root2.left);
+	let rightBool = compareTree(root2.right, root2.right);
+
+	return leftBool && rightBool; // 左右子树必须相等才算相等
+}
+
+```
