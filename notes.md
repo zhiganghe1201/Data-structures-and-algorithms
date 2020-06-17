@@ -770,19 +770,22 @@ function breadthSearch(rootList, target) {
 	}
 
 	return breadthSearch(childList, target);
+
+	breadthSearch([a], 'f'); // 传入第一层节点数组
 }
 
 ```
 
 ### 二叉树的比较
 
+二叉树的比较一定要注意 左右子树交换后算不算同一个二叉树；
 ```js
 
 // 左右子树交换后 不算同一个二叉树；
 function compareTree(root1, root2) {
-	if(root1 == root2) return true; // 是同一颗二叉树
-	if(root1 == null && root2 != null || root2 == null && root1 != null) return false; // 一棵树有值 一棵树没值
-	if(root1.value != root2.value) return false; // 相同位置值不同
+	if(root1 === root2) return true; // 是同一颗二叉树
+	if(root1 === null && root2 !== null || root2 === null && root1 !== null) return false; // 一棵树有值 一棵树没值
+	if(root1.value !== root2.value) return false; // 相同位置值不同
 	let leftBool = compareTree(root1.left, root2.left);
 	let rightBool = compareTree(root2.right, root2.right);
 
@@ -790,3 +793,71 @@ function compareTree(root1, root2) {
 }
 
 ```
+
+### 左右子树互换后算同一个二叉树
+
+```js
+function compare(root1, root2) {
+	if(root1 === root2) return true;
+	if(root1 === null && root2 !== null || root2 === null && root1 !== null) return false;
+	if(root1.value !== root2.value) return false;
+
+	return compare(root1.left, root2.left) && compare(root1.right, root2.right) 
+	|| compare(root1.left, root2.right) && compare(root1.right, root2.left)
+}
+
+
+
+```
+
+# 二叉树的diff算法
+
+二叉树的比较只能判断两颗树是否一样（得到Boolean）； 而diff 是为了 得到 新增了什么， 修改了什么， 删除了什么
+
+```js
+const diffList = []; 
+// {type: '新增', origin: null, now: c2}
+// {type: '删除', origin: c2, now: null}
+// {type: '修改', origin: c1, now: c2}
+
+function diffTree(root1, root2, diffList) {
+	if(root1 === root2) return diffList;
+	if(root1 === null && root2 !== null) { 
+		diffList.push({type: '新增', origin: null, now: root2})
+	} else if(root1 !== null && root2 === null) {
+		diffList.push({type: '删除', orgin: root1, now: null});
+	} else if(root1.value !== root2.value) {
+		diffList.push({type: '修改', origin: root1, now: root2})
+		diffTree(root1.left, root2.left, diffList);
+		diffTree(root2.right, root2.right, diffList)
+	} else {
+		diffTree(root1.left, root2.left, diffList);
+		diffTree(root1.right, root2.right, diffList)
+	}
+}
+
+
+const diffList = [];
+
+diffTree(a1, a2, diffList)
+
+console.log(diffList);
+
+```
+
+# 图的最小生成树问题；
+
+![二叉树](./assets/images/tu.png)
+
+> 希望所有的村庄都联通， 但是需要化费的钱最少
+
+普利姆算法（加点法）
+克鲁斯卡尔算法（加边法）
+
+### 普利姆算法（加点法）
+
+随便选一个点为起点；  已起点找最便宜的线路， 再基于连的两个点 找最便宜的路线；以此类推
+
+### 克鲁斯卡尔算法（加边法）
+
+先找到最端的边； 连接两个点， 保证连接的点是有一个是新的点； 或者是连接到两个部落的点；
