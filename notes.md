@@ -1243,7 +1243,92 @@ prim(poinSet, distance, 'C')
 
 ```
 
+# 二叉搜索树（二叉排序树）
+
+问题： 有一万个数， 写一个方法， 进行查找。 查找给定的数， 返回存在还是不存在； 
+要求： 尽可能的性能好；
+
+```js
+// 正常用数组会这么写
+const arr = [];
+
+for (let i = 0; i < 10000; i++) {
+	arr[i] = Math.floor(Math.random() * 10000)
+	
+}
+let num = 0;
+function search(arr, target) {
+	for (let i = 0; i < arr.length; i++) {
+		num ++
+		if(arr[i] === target) return true;
+	}
+	return false;
+}
 
 
+console.log(search(arr, 1000), num)
+
+```
+
+### 二叉搜索树概念
+
+1. 首先是一颗二叉树
+2. 其次有排序效果， 左子树的节点都比当前节点小， 右子树的节点都比当前节点大。
+
+生成方法： 先取数组的第一个数当做根节点， 按着比他小放左边， 比他大放右边；
 
 
+# 构建二叉搜索树
+
+目的：快速的在很多数中查找出是否有指定的数；
+
+```js
+
+	function Node(value) {
+		this.value = value;
+		this.left = null;
+		this.right = null;
+	}
+
+	function addNode(root, num) {
+		if(root === null) return;
+		if(root.value === num) return; // 相同的数可以不用重复添加
+		if(root.value > num){
+			if(root.left === null) root.left = new Node(num);
+			else root.left = addNode(root.left, num) 
+		} else {
+			if(root.right === null) root.right = new Node(num);
+			else root.right = addNode(root.right, num);
+		}
+	}
+
+	// 根据数组构建二叉搜索树
+	function buildSearchTree(arr) {
+		if(arr === null || arr.length === 0) return null;
+		let root = new Node(arr[0]);
+		for(let i = 1; i < arr.length; i++) {
+			addNode(root, arr[i])
+		}
+		return root;
+	}
+
+```
+
+### 使用二叉搜索树的快速查找
+
+二叉搜索树查找 速度提升很多；
+```js
+let arr = [];
+
+for(let i = 0; i < 10000; i ++) {
+	arr.push(Math.floor(Math.Random() * 10000));
+}
+
+	const root = buildSearch(arr);
+
+	function seachByTree(root, target) {
+		if(root.value === target) return true;
+		if(root.value > target) return searchByTree(root.left, target);
+		else return searchByTree(root.right, target)
+	}
+```
