@@ -91,3 +91,13 @@ function breadthSearch(rootList, target) {
 	return breadthSearch(childList, target);
 
 }
+
+
+const point = ['A', 'B', 'C', 'D', 'E'],
+const distance = [
+	[0, 4, 7, max, max],
+	[4, 0 ,8, 6, max],
+	[7, 8 ,0, 5, max],
+	[0, ,4 ,7, max, max],
+	[max, max, max,7, max, max],
+]
